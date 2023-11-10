@@ -83,3 +83,16 @@ std::istream& operator>>(std::istream& is, Patient& patient) {
 
     return is;
 }
+
+std::ostream& operator<<(std::ostream& os, const Patient& patient) {
+    os << "ID: " << patient.getId() << "\n"
+        << "Прізвище: " << patient.getLastName() << "\n"
+        << "Ім'я: " << patient.getFirstName() << "\n"
+        << "По батькові: " << patient.getMiddleName() << "\n"
+        << "Адреса: " << patient.getAddress() << "\n"
+        << "Телефон: " << patient.getPhoneNumber() << "\n"
+        << "Номер медичної картки: " << patient.getMedicalCardNumber() << "\n"
+        << "Діагноз: " << patient.getDiagnosis() << "\n";
+
+    return os;
+}

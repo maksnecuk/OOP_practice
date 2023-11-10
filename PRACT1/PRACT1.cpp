@@ -10,5 +10,7 @@ int main() {
 
     std::cin >> object1 >> object2 >> object3;
 
+    std::cout << object1 << endl << object2 << endl << object3;
+
     return 0;
 }
