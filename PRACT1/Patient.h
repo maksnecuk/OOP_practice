@@ -19,6 +19,7 @@ private:
 public:
     friend std::istream& operator>>(std::istream& is, Patient& patient);
     friend std::ostream& operator<<(std::ostream& os, const Patient& patient);
+    bool operator==(const Patient& other) const;
     Patient();
 
     

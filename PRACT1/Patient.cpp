@@ -96,3 +96,13 @@ std::ostream& operator<<(std::ostream& os, const Patient& patient) {
 
     return os;
 }
+bool Patient::operator==(const Patient& other) const {
+    return id == other.id &&
+        lastName == other.lastName &&
+        firstName == other.firstName &&
+        middleName == other.middleName &&
+        address == other.address &&
+        phoneNumber == other.phoneNumber &&
+        medicalCardNumber == other.medicalCardNumber &&
+        diagnosis == other.diagnosis;
+}
