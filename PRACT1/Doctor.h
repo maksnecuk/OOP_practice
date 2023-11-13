@@ -2,16 +2,10 @@
 #ifndef DOCTOR_H
 #define DOCTOR_H
 
-#include <string>
+#include "Person.h"
 
-class Doctor {
+class Doctor : public Person {
 private:
-    int id;
-    std::string lastName;
-    std::string firstName;
-    std::string middleName;
-    std::string address;
-    std::string phoneNumber;
     std::string specialization;
     int experience;
 
@@ -23,14 +17,13 @@ public:
         int experience);
 
     
-    int getId() const;
-    std::string getLastName() const;
-    std::string getFirstName() const;
-    std::string getMiddleName() const;
-    std::string getAddress() const;
-    std::string getPhoneNumber() const;
     std::string getSpecialization() const;
     int getExperience() const;
+
+    
+    friend std::ostream& operator<<(std::ostream& os, const Doctor& doctor);
 };
 
 #endif
+
+
