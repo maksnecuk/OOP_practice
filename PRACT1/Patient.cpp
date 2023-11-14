@@ -1,9 +1,7 @@
 #include "Patient.h"
 
-
 Patient::Patient()
     : medicalCardNumber(""), diagnosis("") {}
-
 
 Patient::Patient(int id, const std::string& lastName, const std::string& firstName, const std::string& middleName,
     const std::string& address, const std::string& phoneNumber, const std::string& medicalCardNumber,
@@ -20,9 +18,16 @@ std::string Patient::getDiagnosis() const {
     return diagnosis;
 }
 
+void Patient::displayInfo() const {
+    std::cout << "Інформація про пацієнта:\n";
+    std::cout << *this; 
+    std::cout << "Номер медичної картки: " << getMedicalCardNumber() << "\n"
+        << "Діагноз: " << getDiagnosis() << "\n";
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Patient& patient) {
-    os << static_cast<const Person&>(patient) // Викликаємо оператор виводу базового класу Person
+    os << static_cast<const Person&>(patient) 
         << "Номер медичної картки: " << patient.getMedicalCardNumber() << "\n"
         << "Діагноз: " << patient.getDiagnosis() << "\n";
     return os;

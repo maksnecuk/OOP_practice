@@ -15,12 +15,10 @@ protected:
     std::string phoneNumber;
 
 public:
-    
     Person();
     Person(int id, const std::string& lastName, const std::string& firstName, const std::string& middleName,
         const std::string& address, const std::string& phoneNumber);
 
-    
     int getId() const;
     std::string getLastName() const;
     std::string getFirstName() const;
@@ -28,7 +26,8 @@ public:
     std::string getAddress() const;
     std::string getPhoneNumber() const;
 
-    
+    virtual void displayInfo() const = 0;
+
     friend std::ostream& operator<<(std::ostream& os, const Person& person);
 };
 

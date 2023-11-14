@@ -21,8 +21,16 @@ int Doctor::getExperience() const {
 }
 
 
+void Doctor::displayInfo() const {
+    std::cout << "Інформація про лікаря:\n";
+    std::cout << *this; 
+    std::cout << "Спеціалізація: " << getSpecialization() << "\n"
+        << "Стаж роботи: " << getExperience() << " років\n";
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Doctor& doctor) {
-    os << static_cast<const Person&>(doctor) // Викликаємо оператор виводу базового класу Person
+    os << static_cast<const Person&>(doctor) 
         << "Спеціалізація: " << doctor.getSpecialization() << "\n"
         << "Стаж роботи: " << doctor.getExperience() << " років\n";
     return os;
