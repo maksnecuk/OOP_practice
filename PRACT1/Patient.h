@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PATIENT_H
 #define PATIENT_H
 
@@ -9,17 +10,23 @@ private:
     std::string diagnosis;
 
 public:
+    
     Patient();
     Patient(int id, const std::string& lastName, const std::string& firstName, const std::string& middleName,
         const std::string& address, const std::string& phoneNumber, const std::string& medicalCardNumber,
         const std::string& diagnosis);
 
+    
     std::string getMedicalCardNumber() const;
     std::string getDiagnosis() const;
 
+    
     void displayInfo() const override;
 
+    
     friend std::ostream& operator<<(std::ostream& os, const Patient& patient);
+    
+    friend std::istream& operator>>(std::istream& is, Patient& patient);
 };
 
 #endif

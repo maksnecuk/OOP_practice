@@ -25,6 +25,8 @@ public:
 
     
     friend std::ostream& operator<<(std::ostream& os, const Doctor& doctor);
+    
+    friend std::istream& operator>>(std::istream& is, Doctor& doctor);
 };
 
 #endif
