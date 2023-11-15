@@ -1,65 +1,51 @@
 ﻿#include <iostream>
-#include <Windows.h>
+#include "Vector.h"
 #include "Person.h"
 #include "Patient.h"
 #include "Doctor.h"
-
-
-int displayMenu() {
-    int choice;
-    std::cout << "\nОберіть тип об'єкта:\n";
-    std::cout << "1. Пацієнт\n";
-    std::cout << "2. Лікар\n";
-    std::cout << "0. Вихід\n";
-    std::cout << "Ваш вибір: ";
-    std::cin >> choice;
-    return choice;
-}
+#include <Windows.h>
 
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    const int arraySize = 5;
-    Person* personArray[arraySize];
+    
+    Vector<int> intVector;
+    intVector.push_back(10);
+    intVector.push_back(20);
+    intVector.push_back(30);
 
-    for (int i = 0; i < arraySize; ++i) {
-        int choice = displayMenu();
-
-        switch (choice) {
-        case 1: {
-            personArray[i] = new Patient;
-            std::cout << "\nВведіть інформацію про пацієнта:\n";
-            std::cin >> *dynamic_cast<Patient*>(personArray[i]);
-            break;
-        }
-        case 2: {
-            personArray[i] = new Doctor;
-            std::cout << "\nВведіть інформацію про лікаря:\n";
-            std::cin >> *dynamic_cast<Doctor*>(personArray[i]);
-            break;
-        }
-        case 0:
-            
-            for (int j = 0; j < i; ++j) {
-                delete personArray[j];
-            }
-            return 0;
-        default:
-            std::cout << "\nНевірний вибір. Спробуйте ще раз.\n";
-            --i;
-        }
+    std::cout << "Vector of integers:\n";
+    for (int i = 0; i < intVector.getSize(); ++i) {
+        std::cout << intVector[i] << " ";
     }
+    std::cout << "\n\n";
 
     
-    for (int i = 0; i < arraySize; ++i) {
-        std::cout << "Інформація про об'єкт " << i + 1 << ":\n";
-        personArray[i]->displayInfo();
+    Vector<std::string> stringVector;
+    stringVector.push_back("Hello");
+    stringVector.push_back("World");
+    stringVector.push_back("!");
+
+    std::cout << "Vector of strings:\n";
+    for (int i = 0; i < stringVector.getSize(); ++i) {
+        std::cout << stringVector[i] << " ";
+    }
+    std::cout << "\n\n";
+
+    
+    Vector<Person*> personVector;
+    personVector.push_back(new Patient(1, "Нецюк", "Максим", "Олександрович", "Виноградна-9", "123456", "Card123", "грип"));
+    personVector.push_back(new Doctor(2, "Лазурко", "Лариса", "Петрівна", "Живова-12", "789012", "Сімейний-лікар", 10));
+
+   
+    for (int i = 0; i < personVector.getSize(); ++i) {
+        personVector[i]->displayInfo();
         std::cout << "\n";
     }
 
     
-    for (int i = 0; i < arraySize; ++i) {
-        delete personArray[i];
+    for (int i = 0; i < personVector.getSize(); ++i) {
+        delete personVector[i];
     }
 
     return 0;

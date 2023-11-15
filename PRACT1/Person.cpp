@@ -4,12 +4,10 @@ Person::Person()
     : id(0), lastName(""), firstName(""), middleName(""),
     address(""), phoneNumber("") {}
 
-
 Person::Person(int id, const std::string& lastName, const std::string& firstName, const std::string& middleName,
     const std::string& address, const std::string& phoneNumber)
     : id(id), lastName(lastName), firstName(firstName), middleName(middleName),
     address(address), phoneNumber(phoneNumber) {}
-
 
 int Person::getId() const {
     return id;
@@ -35,7 +33,6 @@ std::string Person::getPhoneNumber() const {
     return phoneNumber;
 }
 
-
 std::ostream& operator<<(std::ostream& os, const Person& person) {
     os << "ID: " << person.getId() << "\n"
         << "Прізвище: " << person.getLastName() << "\n"
@@ -45,7 +42,6 @@ std::ostream& operator<<(std::ostream& os, const Person& person) {
         << "Телефон: " << person.getPhoneNumber() << "\n";
     return os;
 }
-
 
 std::istream& operator>>(std::istream& is, Person& person) {
     std::cout << "ID: ";

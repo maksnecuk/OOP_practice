@@ -10,24 +10,18 @@ private:
     int experience;
 
 public:
-    
     Doctor();
     Doctor(int id, const std::string& lastName, const std::string& firstName, const std::string& middleName,
         const std::string& address, const std::string& phoneNumber, const std::string& specialization,
         int experience);
 
-    
     std::string getSpecialization() const;
     int getExperience() const;
 
-    
     void displayInfo() const override;
 
-    
     friend std::ostream& operator<<(std::ostream& os, const Doctor& doctor);
-    
     friend std::istream& operator>>(std::istream& is, Doctor& doctor);
 };
 
 #endif
-
