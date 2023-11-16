@@ -1,51 +1,77 @@
 ﻿#include <iostream>
-#include "Vector.h"
+#include <vector>
 #include "Person.h"
 #include "Patient.h"
 #include "Doctor.h"
+#include <algorithm> 
+#include <iterator>  
 #include <Windows.h>
 
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    
-    Vector<int> intVector;
-    intVector.push_back(10);
-    intVector.push_back(20);
-    intVector.push_back(30);
 
-    std::cout << "Vector of integers:\n";
-    for (int i = 0; i < intVector.getSize(); ++i) {
-        std::cout << intVector[i] << " ";
-    }
-    std::cout << "\n\n";
+    std::vector<Person*> personVector;
 
     
-    Vector<std::string> stringVector;
-    stringVector.push_back("Hello");
-    stringVector.push_back("World");
-    stringVector.push_back("!");
+    char choice;
+    do {
+        std::cout << "Виберіть тип об'єкта (P - Пацієнт, L - Лікар): ";
+        std::cin >> choice;
 
-    std::cout << "Vector of strings:\n";
-    for (int i = 0; i < stringVector.getSize(); ++i) {
-        std::cout << stringVector[i] << " ";
-    }
-    std::cout << "\n\n";
+        Person* newPerson = nullptr;
 
-    
-    Vector<Person*> personVector;
-    personVector.push_back(new Patient(1, "Нецюк", "Максим", "Олександрович", "Виноградна-9", "123456", "Card123", "грип"));
-    personVector.push_back(new Doctor(2, "Лазурко", "Лариса", "Петрівна", "Живова-12", "789012", "Сімейний-лікар", 10));
+        if (choice == 'P' || choice == 'p') {
+            newPerson = new Patient();
+            std::cin >> *dynamic_cast<Patient*>(newPerson);
+        }
+        else if (choice == 'L' || choice == 'l') {
+            newPerson = new Doctor();
+            std::cin >> *dynamic_cast<Doctor*>(newPerson);
+        }
+        else {
+            std::cout << "Неправильний вибір. Спробуйте знову.\n";
+            continue;
+        }
+
+        personVector.push_back(newPerson);
+
+        std::cout << "Додати ще об'єкт? (Y/N): ";
+        std::cin >> choice;
+
+    } while (choice == 'Y' || choice == 'y');
 
    
-    for (int i = 0; i < personVector.getSize(); ++i) {
-        personVector[i]->displayInfo();
-        std::cout << "\n";
+    std::vector<Person*> secondPersonVector(personVector.begin(), personVector.end());
+
+    
+    personVector.erase(std::remove_if(personVector.begin(), personVector.end(),
+        [](Person* p) { return dynamic_cast<Patient*>(p) != nullptr; }),
+        personVector.end());
+
+    
+    secondPersonVector.erase(std::remove_if(secondPersonVector.begin(), secondPersonVector.end(),
+        [](Person* p) { return dynamic_cast<Doctor*>(p) != nullptr; }),
+        secondPersonVector.end());
+
+    
+    std::cout << "Вміст першого вектора (без об'єктів першого підкласу):\n";
+    for (const auto& person : personVector) {
+        std::cout << *person << "\n";
+    }
+
+    std::cout << "\nВміст другого вектора (без об'єктів другого підкласу):\n";
+    for (const auto& person : secondPersonVector) {
+        std::cout << *person << "\n";
     }
 
     
-    for (int i = 0; i < personVector.getSize(); ++i) {
-        delete personVector[i];
+    for (const auto& person : personVector) {
+        delete person;
+    }
+
+    for (const auto& person : secondPersonVector) {
+        delete person;
     }
 
     return 0;

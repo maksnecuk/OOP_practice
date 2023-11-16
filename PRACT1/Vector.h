@@ -8,11 +8,12 @@ template <typename T>
 class Vector {
 private:
     static const int initialCapacity = 10;
-    std::vector<T> array;
+    
     int size;
     int capacity;
 
 public:
+    std::vector<T> array;
     Vector() : size(0), capacity(initialCapacity), array(initialCapacity) {}
 
     void push_back(const T& value) {
