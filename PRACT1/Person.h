@@ -28,6 +28,10 @@ public:
 
     virtual void displayInfo() const = 0;
 
+    bool operator<(const Person& other) const {
+        return id < other.id;
+    }
+
     friend std::ostream& operator<<(std::ostream& os, const Person& person);
     friend std::istream& operator>>(std::istream& is, Person& person);
 };
