@@ -1,0 +1,61 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QListWidgetItem>
+#include <QListWidget>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QWidget>
+#include "Patient.h"
+#include "Person.h"
+#include "Doctor.h"
+#include "createdoc.h"
+#include "createpat.h"
+#include "showdoc.h"
+#include "showpat.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+signals:
+    void itemSelected(const QString& itemText);
+private slots:
+    void on_createPatPb_clicked();
+
+    void on_createDocPb_clicked();
+
+    void on_showDocPb_clicked();
+
+    void on_showPatPb_clicked();
+
+    void on_exitPb_clicked();
+
+    void on_itemPatDoubleClicked(QListWidgetItem *item);
+
+    void on_itemDocDoubleClicked(QListWidgetItem *item);
+
+    void on_patientCreated(Patient *);
+    void on_doctorCreated(Doctor *);
+
+private:
+    Ui::MainWindow *ui;
+    ShowDoc *showDoctor;
+    ShowPat *showPatient;
+    QVector<Doctor*> doctors;
+    QVector<Patient*> patients;
+    QString id, firstName, surname, lastName, address, phoneNumber, medicalNumber, diagnosis, specialization;
+};
+#endif // MAINWINDOW_H
