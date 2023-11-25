@@ -19,6 +19,13 @@ public:
     string getAddress() override;
     string getPhoneNumber() override;
     string getSpecialization();
+    void setId(int id) override;
+    void setSurname(std::string surname) override;
+    void setFirstName(std::string firstName) override;
+    void setLastName(std::string lastName) override;
+    void setAddress(std::string address) override;
+    void setPhoneNumber(std::string phoneNumber) override;
+    void setSpecialization(std::string specialization);
 	friend istream& operator>>(istream& is, Doctor& doctor);
 	friend ostream& operator<<(ostream& os, Doctor& doctor);
 	bool operator==(const Doctor& other) const;

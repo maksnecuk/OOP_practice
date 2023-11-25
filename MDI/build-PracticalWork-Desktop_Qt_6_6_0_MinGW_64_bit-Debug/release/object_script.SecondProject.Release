@@ -1,0 +1,15 @@
+release/Doctor.o
+release/Patient.o
+release/Person.o
+release/createdoc.o
+release/createpat.o
+release/main.o
+release/mainwindow.o
+release/showdoc.o
+release/showpat.o
+release/sqlitedbmanager.o
+release/moc_createdoc.o
+release/moc_createpat.o
+release/moc_mainwindow.o
+release/moc_showdoc.o
+release/moc_showpat.o

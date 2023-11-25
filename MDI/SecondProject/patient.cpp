@@ -19,6 +19,40 @@ string Patient::getPhoneNumber() { return Person:: getPhoneNumber(); }
 string Patient::getMedicalNumber(){return medicalNumber; }
 string Patient::getDiagnosis(){return diagnosis; }
 
+
+void Patient::setId(int id) {
+     Person::setId(id);
+}
+
+void Patient::setSurname(std::string surname) {
+     Person::setSurname(surname);
+}
+
+void Patient::setFirstName(std::string firstName) {
+    Person::setFirstName(firstName);
+}
+
+void Patient::setLastName(std::string lastName) {
+    Person::setLastName(lastName);
+}
+
+void Patient::setAddress(std::string address) {
+    Person::setAddress(address);
+}
+
+void Patient::setPhoneNumber(std::string phoneNumber) {
+    Person::setPhoneNumber(phoneNumber);
+}
+
+void Patient::setMedicalNumber(std::string medicalNumber) {
+    this->medicalNumber = medicalNumber;
+}
+
+void Patient::setDiagnosis(std::string diagnosis) {
+    this->diagnosis = diagnosis;
+}
+
+
 istream& operator>>(istream& is, Patient& patient) {
     is >> static_cast<Person&>(patient);
     cout << "Enter Medical Number: ";

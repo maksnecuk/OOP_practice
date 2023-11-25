@@ -18,6 +18,35 @@ string Doctor::getAddress() { return Person:: getAddress(); }
 string Doctor::getPhoneNumber() { return Person:: getPhoneNumber(); }
 string Doctor::getSpecialization(){return specialization; }
 
+void Doctor::setId(int id) {
+    Person::setId(id);
+}
+
+void Doctor::setSurname(std::string surname) {
+    Person::setSurname(surname);
+}
+
+void Doctor::setFirstName(std::string firstName) {
+    Person::setFirstName(firstName);
+}
+
+void Doctor::setLastName(std::string lastName) {
+    Person::setLastName(lastName);
+}
+
+void Doctor::setAddress(std::string address) {
+    Person::setAddress(address);
+}
+
+void Doctor::setPhoneNumber(std::string phoneNumber) {
+    Person::setPhoneNumber(phoneNumber);
+}
+
+void Doctor::setSpecialization(std::string specialization) {
+    this->specialization = specialization;
+}
+
+
 istream& operator>>(istream& is, Doctor& doctor) {
     is >> static_cast<Person&>(doctor);
     cout << "Enter Specialization: ";

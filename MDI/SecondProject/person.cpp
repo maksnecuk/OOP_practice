@@ -25,6 +25,29 @@ string Person::getLastName() { return lastName; }
 string Person::getAddress() { return address; }
 string Person::getPhoneNumber() { return phoneNumber; }
 
+void Person::setId(int id) {
+    this->id = id;
+}
+
+void Person::setSurname(std::string surname) {
+    this->surname = surname;
+}
+
+void Person::setFirstName(std::string firstName) {
+    this->firstName = firstName;
+}
+
+void Person::setLastName(std::string lastName) {
+    this->lastName = lastName;
+}
+
+void Person::setAddress(std::string address) {
+    this->address = address;
+}
+
+void Person::setPhoneNumber(std::string phoneNumber) {
+    this->phoneNumber = phoneNumber;
+}
 istream& operator>>(istream& is, Person& person) {
     cout << "Enter ID: ";
     is >> person.id;

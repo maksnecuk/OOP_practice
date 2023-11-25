@@ -6,23 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>501</width>
+    <width>670</width>
     <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QListWidget" name="listWidgetSas">
-     <property name="font">
-      <font>
-       <family>Bahnschrift SemiLight SemiConde</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-    </widget>
+    <widget class="QTableView" name="tableViewPat"/>
    </item>
   </layout>
  </widget>

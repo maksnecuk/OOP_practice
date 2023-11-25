@@ -15,6 +15,7 @@
 #include "createdoc.h"
 #include "createpat.h"
 #include "Doctor.h"
+#include "sqlitedbmanager.h"
 
 namespace Ui {
 class CreateDoc;
@@ -28,17 +29,17 @@ public:
     explicit CreateDoc(QWidget *parent = nullptr);
     ~CreateDoc();
 signals:
-    void doctorCreated(Doctor*);
+//    void doctorCreated(Doctor*);
 
 private slots:
     void on_confirmDocPb_clicked();
 
 private:
     Ui::CreateDoc *ui;
-    Doctor* newDoctor;
-    QLineEdit *idLn, *firstNameLn, *surnameLn, *lastNameLn, *addressLn, *phoneNumLn, *specializationLn;
     QString id, firstName, surname, lastName, address, phoneNumber, specialization;
     bool checkFields();
+    DBManager *db;
+    QSqlTableModel  *model;
 };
 
 #endif // CREATEDOC_H

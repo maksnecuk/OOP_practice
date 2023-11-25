@@ -1,0 +1,15 @@
+debug/Doctor.o
+debug/Patient.o
+debug/Person.o
+debug/createdoc.o
+debug/createpat.o
+debug/main.o
+debug/mainwindow.o
+debug/showdoc.o
+debug/showpat.o
+debug/sqlitedbmanager.o
+debug/moc_createdoc.o
+debug/moc_createpat.o
+debug/moc_mainwindow.o
+debug/moc_showdoc.o
+debug/moc_showpat.o

@@ -21,6 +21,12 @@ public:
     virtual string getAddress();
     virtual string getPhoneNumber();
 	virtual int getId();
+    virtual void setSurname(std::string surname);
+    virtual void setFirstName(std::string firstName);
+    virtual void setLastName(std::string lastName);
+    virtual void setAddress(std::string address);
+    virtual void setPhoneNumber(std::string phoneNumber);
+    virtual void setId(int id);
 	virtual ~Person();
 	virtual void inputData();
 	virtual void outputData();

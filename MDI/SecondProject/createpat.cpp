@@ -6,14 +6,6 @@ CreatePat::CreatePat(QWidget *parent) :
     ui(new Ui::CreatePat)
 {
     ui->setupUi(this);
-    idLn = findChild<QLineEdit*>("idLn");
-    firstNameLn = findChild<QLineEdit*>("firstNameLn");
-    surnameLn = findChild<QLineEdit*>("surnameLn");
-    lastNameLn = findChild<QLineEdit*>("lastNameLn");
-    addressLn = findChild<QLineEdit*>("addressLn");
-    phoneNumLn = findChild<QLineEdit*>("phoneNumLn");
-    medNumLn = findChild<QLineEdit*>("medNumLn");
-    diagnosisLn = findChild<QLineEdit*>("diagnosisLn");
 
 }
 
@@ -33,6 +25,8 @@ bool CreatePat::checkFields(){
 
 void CreatePat::on_confirmPatPb_clicked()
 {
+    SqliteDBManager* db= SqliteDBManager::getInstance();
+    db->connectToDataBase();
     id = ui->idLn->text();
     surname = ui->surnameLn->text();
     firstName = ui->firstNameLn->text();
@@ -42,7 +36,7 @@ void CreatePat::on_confirmPatPb_clicked()
     medicalNumber = ui->medNumLn->text();
     diagnosis = ui->diagnosisLn->text();
 
-    if (checkFields()) {
+    /*if (checkFields()) {
         newPatient = new Patient(id.toInt(), firstName.toStdString(), surname.toStdString(), lastName.toStdString(), address.toStdString(), phoneNumber.toStdString(), medicalNumber.toStdString(), diagnosis.toStdString());
         emit patientCreated(newPatient);
         QMessageBox::StandardButton reply;
@@ -52,6 +46,33 @@ void CreatePat::on_confirmPatPb_clicked()
         }
     } else {
         QMessageBox::warning(this, "Error due to input data :(", "Some fields are empty, please fill them all!!!");
-    }
+    }*/
+
+        if (checkFields()) {
+        //        newDoctor = new Doctor(id.toInt(), firstName.toStdString(), surname.toStdString(), lastName.toStdString(), address.toStdString(), phoneNumber.toStdString(), specialization.toStdString());
+        //        emit doctorCreated(newDoctor);
+
+        Patient pat;
+        pat.setId(id.toInt());
+        pat.setSurname(surname.toStdString());
+        pat.setFirstName(firstName.toStdString());
+        pat.setLastName(lastName.toStdString());
+        pat.setAddress(address.toStdString());
+        pat.setPhoneNumber(phoneNumber.toStdString());
+        pat.setMedicalNumber(medicalNumber.toStdString());
+        pat.setDiagnosis(diagnosis.toStdString());
+
+        if (db->insertIntoTablePatient(pat)) {
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::information(this, "Created successful!", "Now object is created and data is saved in the database! Close this window to look out the printed data.", QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                accept();
+            }
+        } else {
+            QMessageBox::warning(this, "Error due to database operation :(", "Data couldn't be saved in the database!");
+        }
+        } else {
+        QMessageBox::warning(this, "Error due to input data :(", "Some fields are empty, please fill them all!!!");
+        }
 
 }

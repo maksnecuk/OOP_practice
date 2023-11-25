@@ -14,6 +14,7 @@
 #include "Person.h"
 #include "Doctor.h"
 #include "createdoc.h"
+#include "sqlitedbmanager.h"
 
 
 namespace Ui {
@@ -29,7 +30,7 @@ public:
     ~CreatePat();
 
 signals:
-    void patientCreated(Patient*);
+//    void patientCreated(Patient*);
 
 private slots:
 
@@ -37,10 +38,10 @@ private slots:
 
 private:
     Ui::CreatePat *ui;
-    QLineEdit *idLn, *firstNameLn, *surnameLn, *lastNameLn, *addressLn, *phoneNumLn, *medNumLn, *diagnosisLn;
     QString id, firstName, surname, lastName, address, phoneNumber, medicalNumber, diagnosis;
     bool checkFields();
-    Patient* newPatient;
+    DBManager *db;
+    QSqlTableModel  *model;
 };
 
 #endif // CREATEPAT_H
