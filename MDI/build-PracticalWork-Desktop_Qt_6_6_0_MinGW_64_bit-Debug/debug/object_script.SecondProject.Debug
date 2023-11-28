@@ -1,4 +1,5 @@
 debug/Doctor.o
+debug/Logger.o
 debug/Patient.o
 debug/Person.o
 debug/createdoc.o

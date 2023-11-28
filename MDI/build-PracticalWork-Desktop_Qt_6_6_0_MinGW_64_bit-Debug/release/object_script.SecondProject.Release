@@ -1,4 +1,5 @@
 release/Doctor.o
+release/Logger.o
 release/Patient.o
 release/Person.o
 release/createdoc.o

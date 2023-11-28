@@ -29,9 +29,6 @@ public:
     explicit CreatePat(QWidget *parent = nullptr);
     ~CreatePat();
 
-signals:
-//    void patientCreated(Patient*);
-
 private slots:
 
     void on_confirmPatPb_clicked();

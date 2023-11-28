@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     Doctor.cpp \
+    Logger.cpp \
     Patient.cpp \
     Person.cpp \
     createdoc.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     Doctor.h \
+    Logger.h \
     Patient.h \
     Person.h \
     createdoc.h \
@@ -45,4 +47,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    img.qrc
+   

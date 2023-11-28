@@ -20,21 +20,16 @@ public:
     void setList();
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();
-//    QListWidget* getListWidget();
     ~ShowPat();
 
 private slots:
 
 public slots:
-//    void on_patientCreated(Patient *);
 
 
 private:
     Ui::ShowPat *ui;
     bool checkFields();
-//    Patient* patient;
-//    QVector<Patient*> patients;
-
     DBManager *db;
     QSqlTableModel  *model;
 

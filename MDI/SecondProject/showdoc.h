@@ -17,17 +17,11 @@ class ShowDoc : public QDialog
 public:
     explicit ShowDoc(QWidget *parent = nullptr);
     void setList();
-//    QListWidget* getListWidget();
     ~ShowDoc();
-
-public slots:
-//    void on_doctorCreated(Doctor*);
-private slots:
 
 private:
     Ui::ShowDoc *ui;
     bool checkFields();
-//    QVector<Doctor*> doctors;
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();
     DBManager *db;

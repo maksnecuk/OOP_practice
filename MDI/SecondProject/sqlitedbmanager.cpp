@@ -12,7 +12,6 @@ SqliteDBManager* SqliteDBManager::instance = nullptr;
 SqliteDBManager::SqliteDBManager(){
 }
 
-// Метод для отримання екземпляру даного класу (патерн Singleton)
 SqliteDBManager* SqliteDBManager::getInstance()
 {
     if(instance == nullptr){
@@ -21,69 +20,64 @@ SqliteDBManager* SqliteDBManager::getInstance()
     return instance;
 }
 
-// Метод для підключення до бази даних
 void SqliteDBManager::connectToDataBase()
 {
-    /* Перед підключенням до бази даних виконуємо перевірку на її існування.
-     * В залежності від результату виконуємо відкриття бази даних або її відновлення
-     * */
-    if(QFile(DATABASE_NAME).exists()){
-        this->openDataBase();
-    } else {
-        this->restoreDataBase();
-    }
+    try{
+        if (QFile(DATABASE_NAME).exists()) this->openDataBase();
+        else this->restoreDataBase();
+    }catch(const std::exception &ex){throw;}
 }
 
-// Метод для отримання обробника підключення до БД
 QSqlDatabase SqliteDBManager::getDB()
 {
     return db;
 }
 
-// Метод відновлення бази даних
+
 bool SqliteDBManager::restoreDataBase()
 {
-    if(this->openDataBase()){
-        if(!this->createTables()){
-            return false;
+    try {
+        if (this->openDataBase()) {
+            if (!this->createTables()) {
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            throw std::runtime_error("Failed to restore database");
         }
-    } else {
-        qDebug() << "Не вдалось відновити базу даних";
-        return false;
+    } catch(const std::exception &ex) {
+        throw;
     }
 }
 
-// Метод для відкриття бази даних
 bool SqliteDBManager::openDataBase()
 {
-    /* База даних відкривається по вказаному шляху
-     * і імені бази даних, якщо вона існує
-     * */
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setHostName(DATABASE_HOSTNAME);
-    db.setDatabaseName(DATABASE_NAME);
-    if(db.open()){
-        return true;
-    } else
-        return false;
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setHostName(DATABASE_HOSTNAME);
+        db.setDatabaseName(DATABASE_NAME);
+
+        if (db.open()) {
+            return true;
+        } else {
+            throw std::runtime_error("Failed to open database");
+            return false;
+        }
 }
 
-// Метод закриття бази даних
 void SqliteDBManager::closeDataBase()
 {
     db.close();
 }
 
-// Метод для створення таблиці в базі даних
 bool SqliteDBManager::createTables()
 {
-    /* В даному випадку використовується фурмування сирого SQL-запиту
-     * з наступним його виконанням.
-     * */
     QSqlQuery query;
     bool success = true;
+    if (db.tables().contains(TABLE_PATIENTS) || db.tables().contains(TABLE_DOCTORS)) {
+            throw std::runtime_error("Tables already exist. Skipping creation");
+            return false;
+    }
     if(!query.exec( "CREATE TABLE " TABLE_PATIENTS"("
                     TABLE_ID " INT NOT NULL, "
                     TABLE_SURNAME " TEXT NOT NULL,"
@@ -95,11 +89,9 @@ bool SqliteDBManager::createTables()
                     TABLE_DIAGNOSIS " TEXT NOT NULL"
                     " )"
                     )){
-        qDebug() << "DataBase: error of create " << TABLE_PATIENTS;
-        qDebug() << query.lastError().text();
+        throw std::runtime_error("Error in creating Patients` table");
         success = false;
     }
-
     if(!query.exec( "CREATE TABLE " TABLE_DOCTORS"("
                     TABLE_ID " INT NOT NULL, "
                     TABLE_SURNAME " TEXT NOT NULL,"
@@ -110,24 +102,16 @@ bool SqliteDBManager::createTables()
                     TABLE_SPECIALIZATION " TEXT NOT NULL"
                     " )"
                     )){
-        qDebug() << "DataBase: error of create " << TABLE_DOCTORS;
-        qDebug() << query.lastError().text();
+        throw std::runtime_error("Error in creating Doctors` table");
         success = false;
     }
         return success;
 }
 
-// Метод для вставки записів у базу даних
-bool SqliteDBManager::insertIntoTablePatient(Patient& pat/*const QString tableName, const QVariantList &data*/)
+bool SqliteDBManager::insertIntoTablePatient(Patient& pat)
 {
-    //Запит SQL формується із QVariantList, в який передаються данні для вставки в таблицю.
     QSqlQuery query;
-    /*
-     * Спочатку SQL-запит формується з ключами, які потім зв'язуються методом bindValue
-     * для підставки даних із QVariantList
-     * */
-//    if (tableName == TABLE_PATIENTS){
-        qDebug() << TABLE_PATIENTS;
+        qInfo() << TABLE_PATIENTS<<" table\n";
         query.prepare("INSERT INTO " TABLE_PATIENTS " ("
                       TABLE_ID ", "
                       TABLE_SURNAME ", "
@@ -146,52 +130,20 @@ bool SqliteDBManager::insertIntoTablePatient(Patient& pat/*const QString tableNa
         query.bindValue(":phoneNumber", QString::fromStdString(pat.getPhoneNumber()));
         query.bindValue(":medicalNumber", QString::fromStdString(pat.getMedicalNumber()));
         query.bindValue(":diagnosis", QString::fromStdString(pat.getDiagnosis()));
-//        query.bindValue(":ID", pat.getId()/*data[0].toInt()*/);
-//        query.bindValue(":surname", pat.getSurname()/*data[1].toString()*/);
-//        query.bindValue(":firstName", pat.getFirstName()/* data[2].toString()*/);
-//        query.bindValue(":lastName", pat.getLastName()/* data[3].toString()*/);
-//        query.bindValue(":address", pat.getAddress()/*data[4].toString()*/);
-//        query.bindValue(":phoneNumber", pat.getPhoneNumber()/*data[5].toString()*/);
-//        query.bindValue(":medicalNumber", pat.getMedicalNumber()/*data[6].toString()*/);
-//        query.bindValue(":diagnosis", pat.getDiagnosis()/*data[7].toString()*/);
-//    }
-//        else if (tableName == TABLE_DOCTORS){
-//            qDebug() << tableName;
-//            query.prepare("INSERT INTO " TABLE_DOCTORS " ( "
-//                          "ID, "
-//                          "surname, "
-//                          "first_name, "
-//                          "last_name, "
-//                          "address, "
-//                          "phone_number, "
-//                          "specialization ) "
-//                          "VALUES (:ID, :surname, :firstName, :lastName, :address, :phoneNumber, :specialization )");
 
-//            query.bindValue(":ID", data[0].toInt());
-//            query.bindValue(":surname", data[1].toString());
-//            query.bindValue(":firstName", data[2].toString());
-//            query.bindValue(":lastName", data[3].toString());
-//            query.bindValue(":address", data[4].toString());
-//            query.bindValue(":phoneNumber", data[5].toString());
-//            query.bindValue(":specialization", data[6].toString());
-//    }
-
-    // Після чого виконується запит методом exec()
-    if(!query.exec()){
-        qDebug() << "error insert into " << TABLE_PATIENTS;
-        qDebug() << query.lastError().text();
-        qDebug() << query.lastQuery();
-
+        if (!query.exec()) {
+        throw std::runtime_error("Error inserting into Patients` table");
         return false;
-    } else
+        } else
         return true;
+
+
 }
 
-bool SqliteDBManager::insertIntoTableDoctor(Doctor& doc/*const QString tableName, const QVariantList &data*/)
+bool SqliteDBManager::insertIntoTableDoctor(Doctor& doc)
 {
-    //Запит SQL формується із QVariantList, в який передаються данні для вставки в таблицю.
     QSqlQuery query;
-                qDebug() << TABLE_DOCTORS;
+                qInfo() << TABLE_DOCTORS<<" table";
                 query.prepare("INSERT INTO " TABLE_DOCTORS " ( "
                               TABLE_ID ", "
                               TABLE_SURNAME ", "
@@ -210,12 +162,8 @@ bool SqliteDBManager::insertIntoTableDoctor(Doctor& doc/*const QString tableName
     query.bindValue(":phoneNumber", QString::fromStdString(doc.getPhoneNumber()));
     query.bindValue(":specialization", QString::fromStdString(doc.getSpecialization()));
 
-    // Після чого виконується запит методом exec()
-    if(!query.exec()){
-        qDebug() << "error insert into " << TABLE_DOCTORS;
-        qDebug() << query.lastError().text();
-        qDebug() << query.lastQuery();
-
+    if (!query.exec()) {
+        throw std::runtime_error("Error inserting into Doctors` table");
         return false;
     } else
         return true;
@@ -223,26 +171,30 @@ bool SqliteDBManager::insertIntoTableDoctor(Doctor& doc/*const QString tableName
 
 bool SqliteDBManager::clearPatientsTable() {
     QSqlQuery query;
-
-    // Виконуємо SQL-запит для видалення всіх записів з таблиці "Patients"
+    if (db.tables().contains(TABLE_PATIENTS)) {
     if (query.exec("DELETE FROM " TABLE_PATIENTS)) {
         return true;
     } else {
-        qDebug() << "Failed to clear Patients table";
-        qDebug() << query.lastError().text();
+        throw std::runtime_error("Error in clearing Patients` table");
         return false;
+    }
+    } else{
+    throw std::runtime_error("Patients` table doesn`t exist, nothing to clear");
+    return false;
     }
 }
 
 bool SqliteDBManager::clearDoctorsTable() {
-    QSqlQuery query;
-
-    // Виконуємо SQL-запит для видалення всіх записів з таблиці "Doctors"
-    if (query.exec("DELETE FROM " TABLE_DOCTORS)) {
+        QSqlQuery query;
+    if (db.tables().contains(TABLE_DOCTORS)) {
+        if (query.exec("DELETE FROM " TABLE_DOCTORS)) {
         return true;
-    } else {
-        qDebug() << "Failed to clear Doctors table";
-        qDebug() << query.lastError().text();
+        } else {
+        throw std::runtime_error("Error in clearing Doctors` table");
+        return false;
+        }
+    } else{
+        throw std::runtime_error("Doctors` table doesn`t exist, nothing to clear");
         return false;
     }
 }

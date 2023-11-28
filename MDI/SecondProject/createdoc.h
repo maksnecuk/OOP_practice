@@ -28,9 +28,6 @@ class CreateDoc : public QDialog
 public:
     explicit CreateDoc(QWidget *parent = nullptr);
     ~CreateDoc();
-signals:
-//    void doctorCreated(Doctor*);
-
 private slots:
     void on_confirmDocPb_clicked();
 
